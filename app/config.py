@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 VALID_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE",
-                  "PERFECT", "SEED"]
+              "PERFECT", "SEED"]
 
 
 class ConfigError(Exception):
@@ -23,10 +23,12 @@ class Config:
 
 
 def load_config(path: str) -> Config:
+    """..."""
     pass
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
+    """..."""
     config: dict[str, tuple[str, int]] = {}
     for number, raw in enumerate(lines, start=1):
         line = raw.strip()
@@ -41,7 +43,7 @@ def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
         if k not in VALID_KEYS:
             raise ConfigError(f"line {number}: the key {k!r} is invalid!")
         if not v:
-            raise ConfigError(f"line {number}: the value {v!r} is invalid!")
+            raise ConfigError(f"line {number}: empty value for {k}!")
         if k in config:
             raise ConfigError(f"line {number}: the key {k!r} is duplicated!")
         config[k] = (v, number)
@@ -49,12 +51,15 @@ def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
 
 
 def _parse_int(key: str, raw: str, line: int) -> int:
+    """..."""
     pass
 
 
 def _parse_coord(key: str, raw: str, line: int) -> tuple[int, int]:
+    """..."""
     pass
 
 
 def _parse_bool(key: str, raw: str, line: int) -> bool:
+    """..."""
     pass
