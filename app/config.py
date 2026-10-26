@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 class ConfigError(Exception):
     pass
 
@@ -20,10 +21,15 @@ def load_config(path: str) -> Config:
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
-    pass
+    config = {}
+    for line in enumerate(lines, start=1):
+        try:
 
 
-def _parse_int(key: str, rae: str, line: int) -> int:
+    ...
+
+
+def _parse_int(key: str, raw: str, line: int) -> int:
     pass
 
 
@@ -31,5 +37,5 @@ def _parse_coord(key: str, raw: str, line: int) -> tuple[int, int]:
     pass
 
 
-def _parse_bool(key: str, raw:str, line: int) -> bool:
+def _parse_bool(key: str, raw: str, line: int) -> bool:
     pass
