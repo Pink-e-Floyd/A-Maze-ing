@@ -79,7 +79,7 @@ class MazeGenerator:
         return self._entry
 
     @property
-    def exit(self) -> Cell:
+    def exit_(self) -> Cell:
         """Exit cell (x, y)."""
         return self._exit
 
