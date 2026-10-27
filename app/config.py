@@ -16,14 +16,15 @@ class Config:
     width: int
     height: int
     entry: tuple[int, int]
-    exit: tuple[int, int]
+    exit_: tuple[int, int]
     output_file: str
     perfect: bool
     seed: int | None = None
 
 
 def load_config(path: str) -> Config:
-    """..."""
+    """Read the config in the path file, calls the parser functions, 
+    and validate the coordinates."""
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = f.read()
@@ -36,11 +37,29 @@ def load_config(path: str) -> Config:
     pairs = _read_pairs(lines)
     missing_keys: list[str] = []
     for key in MANDATORY_KEYS:
-        if key.lower() not in pairs:
+        if key not in pairs:
             missing_keys.append(key)
     if missing_keys:
         missing = ", ".join(missing_keys)
         raise ConfigError(f"Missing mandatory key(s): {missing}")
+    raw, line = pairs["WIDTH"]
+    width = _parse_int("WIDTH", raw, line)
+    raw, line = pairs["HEIGHT"]
+    height = _parse_int("HEIGHT", raw, line)
+    raw, line = pairs["ENTRY"]
+    entry = _parse_coord("ENTRY", raw, line)
+    raw, line = pairs["EXIT"]
+    exit_ = _parse_coord("EXIT", raw, line)
+    raw, line = pairs["PERFECT"]
+    perfect = _parse_bool("PERFECT", raw, line)
+    output_file = pairs["OUTPUT_FILE"][0]
+    seed: int | None = None
+    if "SEED" in pairs:
+        raw, line = pairs["SEED"]
+        seed = _parse_int("SEED", raw, line)
+    
+    
+
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
