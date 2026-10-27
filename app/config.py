@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 
 
-VALID_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE",
-              "PERFECT", "SEED"]
 MANDATORY_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE",
                   "PERFECT"]
+VALID_KEYS = MANDATORY_KEYS + ["SEED"]
 
 
 class ConfigError(Exception):
