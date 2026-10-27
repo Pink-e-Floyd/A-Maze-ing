@@ -58,8 +58,6 @@ def load_config(path: str) -> Config:
         raw, line = pairs["SEED"]
         seed = _parse_int("SEED", raw, line)
     
-    
-
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
