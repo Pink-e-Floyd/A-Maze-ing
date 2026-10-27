@@ -3,11 +3,12 @@ from dataclasses import dataclass
 
 VALID_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE",
               "PERFECT", "SEED"]
+MANDATORY_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE",
+                  "PERFECT"]
 
 
 class ConfigError(Exception):
     """Raised when the configuration file is missing or invalid."""
-    pass
 
 
 @dataclass(frozen=True)
@@ -24,7 +25,23 @@ class Config:
 
 def load_config(path: str) -> Config:
     """..."""
-    pass
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            data = f.read()
+    except OSError as e:
+        raise ConfigError(f"Error reading {path!r}: {e.strerror}") from None
+    except UnicodeDecodeError:
+        raise ConfigError(f"The file: {path!r} needs to be"
+                          " a text file") from None
+    lines = data.split("\n")
+    pairs = _read_pairs(lines)
+    missing_keys: list[str] = []
+    for key in MANDATORY_KEYS:
+        if key.lower() not in pairs:
+            missing_keys.append(key)
+    if missing_keys:
+        missing = ", ".join(missing_keys)
+        raise ConfigError(f"Missing mandatory key(s): {missing}")
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
@@ -51,15 +68,31 @@ def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
 
 
 def _parse_int(key: str, raw: str, line: int) -> int:
-    """..."""
-    pass
+    """Convert raw to int or raise ConfigError."""
+    try:
+        return int(raw)
+    except ValueError:
+        raise ConfigError(f"line {line}: {key} must be an integer,"
+                          f" got {raw!r}") from None
 
 
 def _parse_coord(key: str, raw: str, line: int) -> tuple[int, int]:
-    """..."""
-    pass
+    """Convert raw to x,y or raise ConfigError."""
+    value = raw.split(",")
+    if len(value) == 2:
+        x = _parse_int(key, value[0], line)
+        y = _parse_int(key, value[1], line)
+        return (x, y)
+    raise ConfigError(f"line {line}: {key} must be 'x,y',"
+                      f" got {raw!r}")
 
 
 def _parse_bool(key: str, raw: str, line: int) -> bool:
-    """..."""
-    pass
+    """Convert raw to bool or raise ConfigError."""
+    value = raw.lower()
+    if value == "true":
+        return True
+    if value == "false":
+        return False
+    raise ConfigError(f"line {line}: {key} must be True or False,"
+                      f" got {raw!r}")
