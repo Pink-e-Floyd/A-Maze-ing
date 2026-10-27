@@ -33,9 +33,6 @@ def write_maze(path: str, content: str) -> None:
     Args:
         path: Path of the output file.
         content: Text returned by format_maze.
-
-    Raises:
-        OSError: If the file cannot be opened or written.
     """
     with open(path, "w") as f:
         f.write(content)
