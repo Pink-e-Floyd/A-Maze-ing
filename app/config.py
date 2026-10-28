@@ -4,6 +4,8 @@ from dataclasses import dataclass
 MANDATORY_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE",
                   "PERFECT"]
 VALID_KEYS = MANDATORY_KEYS + ["SEED"]
+MIN_SIZE = 2
+MAX_SIZE = 200
 
 
 class ConfigError(Exception):
@@ -23,7 +25,7 @@ class Config:
 
 
 def load_config(path: str) -> Config:
-    """Read the config in the path file, calls the parser functions, 
+    """Read the config in the path file, calls the parser functions,
     and validate the coordinates."""
     try:
         with open(path, "r", encoding="utf-8") as f:
@@ -57,7 +59,26 @@ def load_config(path: str) -> Config:
     if "SEED" in pairs:
         raw, line = pairs["SEED"]
         seed = _parse_int("SEED", raw, line)
-    
+    if not MIN_SIZE <= width <= MAX_SIZE:
+        raise ConfigError(f"Expected 'WIDTH' between {MIN_SIZE} and"
+                          f" {MAX_SIZE}, received: {width!r}")
+    if not MIN_SIZE <= height <= MAX_SIZE:
+        raise ConfigError(f"Expected 'HEIGHT' between {MIN_SIZE} and"
+                          f" {MAX_SIZE}, received: {height!r}")
+    x, y = entry
+    if not 0 <= x < width or not 0 <= y < height:
+        raise ConfigError(f"'ENTRY' {entry} is outside a"
+                          f" {width}x{height} maze!")
+    x, y = exit_
+    if not 0 <= x < width or not 0 <= y < height:
+        raise ConfigError(f"'EXIT' {exit_} is outside a"
+                          f" {width}x{height} maze!")
+    if entry == exit_:
+        raise ConfigError("'ENTRY' and 'EXIT' need to be different!")
+    if seed is not None and seed < 0:
+        raise ConfigError("'SEED' need to be positive or 0")
+    return Config(width=width, height=height, entry=entry, exit_=exit_,
+                  output_file=output_file, perfect=perfect, seed=seed)
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
