@@ -2,9 +2,10 @@
 
 import sys
 from mazegen import MazeGenerator
-from app.config import load_config, ConfigError
-from app.writer import format_maze, write_maze
-from app.display import run_interactive
+from app import (
+    ConfigError, format_maze, load_config,
+    run_interactive, write_maze
+)
 
 
 def main(argv: list[str]) -> int:
@@ -38,7 +39,6 @@ def main(argv: list[str]) -> int:
                               generator.exit_,
                               generator.solution_directions())
         write_maze(config.output_file, content)
-        run_interactive(generator)
     except ConfigError as e:
         print(f"Config error: {e}", file=sys.stderr)
         return 1
@@ -48,6 +48,7 @@ def main(argv: list[str]) -> int:
     except OSError as e:
         print(f"Could not write file: {e}", file=sys.stderr)
         return 1
+    run_interactive(generator)
     return 0
 
 
