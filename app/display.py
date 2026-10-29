@@ -2,6 +2,7 @@
 
 from mazegen import MazeGenerator
 import shutil
+
 Cell = tuple[int, int]
 N, E, S, W = 1, 2, 4, 8
 DEFAULT_PALETTE = {
