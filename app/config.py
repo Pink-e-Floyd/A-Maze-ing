@@ -1,3 +1,5 @@
+"""Read and validate the A-Maze-ing configuration file."""
+
 from dataclasses import dataclass
 
 
@@ -14,7 +16,18 @@ class ConfigError(Exception):
 
 @dataclass(frozen=True)
 class Config:
-    """Validated maze configuration."""
+    """Validated maze configuration.
+
+    Attributes:
+        width: Number of columns of the maze.
+        height: Number of rows of the maze.
+        entry: (x, y) of the entry cell.
+        exit_: (x, y) of the exit cell.
+        output_file: Path of the file where the maze is written.
+        perfect: True for a perfect maze, False for a maze with loops.
+        seed: Random seed, or None for a random maze.
+    """
+
     width: int
     height: int
     entry: tuple[int, int]
@@ -25,8 +38,20 @@ class Config:
 
 
 def load_config(path: str) -> Config:
-    """Read the config in the path file, calls the parser functions,
-    and validate the coordinates."""
+    """Read, parse and validate a configuration file.
+
+    Args:
+        path: Path of the configuration file.
+
+    Returns:
+        The validated configuration.
+
+    Raises:
+        ConfigError: If the file cannot be read, a mandatory key is
+            missing, a value is invalid, the size is out of range, the
+            entry or exit is outside the maze, entry equals exit, or
+            the seed is negative.
+    """
     try:
         with open(path, "r", encoding="utf-8") as f:
             data = f.read()
@@ -82,7 +107,21 @@ def load_config(path: str) -> Config:
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
-    """..."""
+    """Turn the lines of the file into a dict of raw values.
+
+    Empty lines and lines starting with '#' are ignored. Keys are
+    converted to upper case and spaces around keys and values are removed.
+
+    Args:
+        lines: Lines of the configuration file.
+
+    Returns:
+        A dict mapping each key to (raw value, line number).
+
+    Raises:
+        ConfigError: If a line has no '=', the key is unknown or
+            duplicated, or the value is empty.
+    """
     config: dict[str, tuple[str, int]] = {}
     for number, raw in enumerate(lines, start=1):
         line = raw.strip()
@@ -105,7 +144,19 @@ def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
 
 
 def _parse_int(key: str, raw: str, line: int) -> int:
-    """Convert raw to int or raise ConfigError."""
+    """Convert a raw value to an int.
+
+    Args:
+        key: Name of the key, used in the error message.
+        raw: Raw value read from the file.
+        line: Line number, used in the error message.
+
+    Returns:
+        The value as an int.
+
+    Raises:
+        ConfigError: If raw is not an integer.
+    """
     try:
         return int(raw)
     except ValueError:
@@ -114,7 +165,20 @@ def _parse_int(key: str, raw: str, line: int) -> int:
 
 
 def _parse_coord(key: str, raw: str, line: int) -> tuple[int, int]:
-    """Convert raw to x,y or raise ConfigError."""
+    """Convert a raw 'x,y' value to a coordinate.
+
+    Args:
+        key: Name of the key, used in the error message.
+        raw: Raw value read from the file, like '0,0'.
+        line: Line number, used in the error message.
+
+    Returns:
+        The coordinate as (x, y).
+
+    Raises:
+        ConfigError: If raw does not have exactly two integers
+            separated by a comma.
+    """
     value = raw.split(",")
     if len(value) == 2:
         x = _parse_int(key, value[0], line)
@@ -125,7 +189,19 @@ def _parse_coord(key: str, raw: str, line: int) -> tuple[int, int]:
 
 
 def _parse_bool(key: str, raw: str, line: int) -> bool:
-    """Convert raw to bool or raise ConfigError."""
+    """Convert a raw 'True'/'False' value to a bool (any case).
+
+    Args:
+        key: Name of the key, used in the error message.
+        raw: Raw value read from the file.
+        line: Line number, used in the error message.
+
+    Returns:
+        The value as a bool.
+
+    Raises:
+        ConfigError: If raw is not 'true' or 'false'.
+    """
     value = raw.lower()
     if value == "true":
         return True
