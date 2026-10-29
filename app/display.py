@@ -139,6 +139,7 @@ def run_interactive(generator: MazeGenerator) -> None:
         try:
             choice = input("Choice? (1-4) ").strip()
         except (KeyboardInterrupt, EOFError):
+            print()
             break
 
         if choice == "1":
