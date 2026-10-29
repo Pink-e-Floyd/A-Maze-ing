@@ -7,7 +7,7 @@ N, E, S, W = 1, 2, 4, 8
 DEFAULT_PALETTE = {
     "wall": "224", "entry": "34", "exit": "198", "path": "14", "pattern": "135"
 }
-WALL_COLORS = ["225", "211", "159", "15"]
+WALL_COLORS = ["224", "225", "211", "159", "15"]
 
 
 def _slots(grid: list[list[int]]) -> list[list[bool]]:
