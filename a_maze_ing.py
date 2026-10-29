@@ -6,7 +6,17 @@ from app.display import run_interactive
 
 
 def main(argv: list[str]) -> int:
-    """..."""
+    """Run the A-Maze-ing program.
+
+    Load the config, generate the maze, write it to the output file
+    and start the interactive menu.
+
+    Args:
+        argv: Command line arguments. argv[1] is the config file path.
+
+    Returns:
+        0 on success, 1 on error.
+    """
     if len(argv) != 2:
         print("Usage: python3 a_maze_ing.py config.txt", file=sys.stderr)
         return 1
