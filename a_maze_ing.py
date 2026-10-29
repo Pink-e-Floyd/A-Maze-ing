@@ -6,14 +6,15 @@ from app.display import run_interactive
 
 
 def main(argv: list[str]) -> int:
+    """..."""
     if len(argv) != 2:
-        print("Usage: python3 a_maze_ing.py config.txt")
+        print("Usage: python3 a_maze_ing.py config.txt", file=sys.stderr)
         return 1
     try:
         config = load_config(argv[1])
         generator = MazeGenerator(width=config.width, height=config.height,
-                                  entry=config.entry, exit=config.exit_, 
-                                  seed=config.seed)
+                                  entry=config.entry, exit=config.exit_,
+                                  perfect=config.perfect, seed=config.seed)
         generator.generate()
         content = format_maze(generator.grid, generator.entry,
                               generator.exit_,
