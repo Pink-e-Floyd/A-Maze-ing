@@ -28,6 +28,12 @@ def main(argv: list[str]) -> int:
                                   entry=config.entry, exit=config.exit_,
                                   perfect=config.perfect, seed=config.seed)
         generator.generate()
+        if not generator.has_pattern:
+            print(
+                "Maze too small for the 42 pattern (needs at least "
+                f"9x9, got {config.width}x{config.height}): pattern skipped.",
+                file=sys.stderr
+            )
         content = format_maze(generator.grid, generator.entry,
                               generator.exit_,
                               generator.solution_directions())
