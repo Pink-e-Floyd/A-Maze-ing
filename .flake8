@@ -7,4 +7,3 @@ exclude =
     build,
     dist,
     .mypy_cache,
-    tools

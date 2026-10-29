@@ -8,4 +8,4 @@ build/
 dist/
 *.egg-info/
 maze.txt
-mazegen-1.0.0-py3-none-any.whl
+.DS_Store
