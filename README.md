@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by hesantan, tjulya-c.*
+*This project has been created as part of the 42 curriculum by tjulya-c, hesantan.*
 
 # A-Maze-ing
 
@@ -279,15 +279,6 @@ The first plan was to finish the config first. In practice the generator
 and the writer were ready before it, so we used hard-coded values to test
 them and plugged the config in at the end, together with the main program.
 Packaging and the README were left for the last step.
-
-### What worked well and what could be improved
-
-- **Worked well**: clear separation between the reusable `mazegen` package
-  and the app; one branch and one pull request per module; running `flake8`
-  and `mypy` on every module before merging.
-- **Could be improved**: we should have written the `pyproject.toml` and the
-  README earlier, and added automated tests (`pytest`) for the generator and
-  the config parser.
 
 ### Tools
 

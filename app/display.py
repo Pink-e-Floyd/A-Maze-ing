@@ -1,6 +1,7 @@
 """Draw the maze in the terminal and run the interactive menu."""
 
 from mazegen import MazeGenerator
+import shutil
 Cell = tuple[int, int]
 N, E, S, W = 1, 2, 4, 8
 DEFAULT_PALETTE = {
@@ -116,8 +117,17 @@ def run_interactive(generator: MazeGenerator) -> None:
 
     while True:
         path = generator.solve() if show_path else None
-        print(render(generator.grid, generator.entry, generator.exit_,
-                     path, generator.pattern_cells, palette))
+        cols = shutil.get_terminal_size().columns
+        needed = (2 * len(generator.grid[0]) + 1) * 2
+        if needed > cols:
+            print(
+                f"Maze too wide for this terminal "
+                f"(needs {needed} columns, has {cols}). "
+                "Zoom out or enlarge the window."
+            )
+        else:
+            print(render(generator.grid, generator.entry, generator.exit_,
+                         path, generator.pattern_cells, palette))
         print(
             "=== A-Maze-ing ===\n"
             "1. Re-generate a new maze\n"

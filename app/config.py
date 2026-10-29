@@ -1,3 +1,5 @@
+"""Read and validate the A-Maze-ing configuration file."""
+
 from dataclasses import dataclass
 
 

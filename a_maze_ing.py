@@ -1,3 +1,5 @@
+"""Entry point of A-Maze-ing: read the config, build the maze and show it."""
+
 import sys
 from mazegen import MazeGenerator
 from app.config import load_config, ConfigError
