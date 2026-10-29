@@ -1,9 +1,9 @@
 # A-Maze-ing default configuration
 # Mandatory keys
-WIDTH=20
+WIDTH=15
 HEIGHT=15
-ENTRY=1 , 1
-EXIT=19,14
+ENTRY=0 , 0
+EXIT=14 , 14
 OUTPUT_FILE=maze.txt
 PERFECT=True
 
