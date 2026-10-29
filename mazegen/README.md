@@ -64,7 +64,7 @@ has_north_wall = bool(cell & 1)
 has_east_wall = bool(cell & 2)
 ```
 
-Other attributes: `maze.seed`, `maze.entry`, `maze.exit`,
+Other attributes: `maze.seed`, `maze.entry`, `maze.exit_`,
 `maze.has_pattern` (False if the maze is too small for the 42) and
 `maze.pattern_cells` (cells of the 42, fully closed).
 
