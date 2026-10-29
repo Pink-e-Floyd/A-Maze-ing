@@ -56,7 +56,8 @@ def render(grid: list[list[int]], entry: Cell, exit_: Cell,
         exit_: (x, y) of the exit cell.
         path: Cells of the shortest path, or None to hide it.
         pattern_cells: Cells of the 42 pattern.
-        palette: Emoji for "wall", "entry", "exit", "path" and "pattern".
+        palette: 256-colour codes (e.g. "224") for "wall", "entry",
+        "exit", "path" and "pattern".
 
     Returns:
         One line of text per slot row, joined with newlines.
