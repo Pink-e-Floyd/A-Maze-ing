@@ -48,7 +48,7 @@ def _block(code: str) -> str:
 def render(grid: list[list[int]], entry: Cell, exit_: Cell,
            path: list[Cell] | None, pattern_cells: frozenset[Cell],
            palette: dict[str, str]) -> str:
-    """Draw the maze as a string of emoji, ready to print.
+    """Draw the maze as coloured blocks, ready to print.
 
     Args:
         grid: Rows of cells, each cell a 4-bit wall mask (N, E, S, W).
