@@ -1,7 +1,7 @@
 """Draw the maze in the terminal and run the interactive menu."""
 
-from mazegen import MazeGenerator
 import shutil
+from mazegen import MazeGenerator
 
 Cell = tuple[int, int]
 N, E, S, W = 1, 2, 4, 8

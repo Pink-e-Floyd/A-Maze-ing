@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 
-
 MANDATORY_KEYS = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE",
                   "PERFECT"]
 VALID_KEYS = MANDATORY_KEYS + ["SEED"]
@@ -76,15 +75,15 @@ def load_config(path: str) -> Config:
         raise ConfigError(f"'EXIT' {exit_} is outside a"
                           f" {width}x{height} maze!")
     if entry == exit_:
-        raise ConfigError("'ENTRY' and 'EXIT' need to be different!")
+        raise ConfigError("'ENTRY' and 'EXIT' need to be different")
     if seed is not None and seed < 0:
-        raise ConfigError("'SEED' need to be positive or 0")
+        raise ConfigError("'SEED' must be positive or 0")
     return Config(width=width, height=height, entry=entry, exit_=exit_,
                   output_file=output_file, perfect=perfect, seed=seed)
 
 
 def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
-    """..."""
+    """Read KEY=VALUE lines into {KEY: (value, line number)}."""
     config: dict[str, tuple[str, int]] = {}
     for number, raw in enumerate(lines, start=1):
         line = raw.strip()
@@ -97,11 +96,11 @@ def _read_pairs(lines: list[str]) -> dict[str, tuple[str, int]]:
         k = k.strip().upper()
         v = v.strip()
         if k not in VALID_KEYS:
-            raise ConfigError(f"line {number}: the key {k!r} is invalid!")
+            raise ConfigError(f"line {number}: the key {k!r} is invalid")
         if not v:
-            raise ConfigError(f"line {number}: empty value for {k}!")
+            raise ConfigError(f"line {number}: empty value for {k}")
         if k in config:
-            raise ConfigError(f"line {number}: the key {k!r} is duplicated!")
+            raise ConfigError(f"line {number}: the key {k!r} is duplicated")
         config[k] = (v, number)
     return config
 
