@@ -21,8 +21,8 @@ def format_maze(grid: list[list[int]], entry: tuple[int, int],
             maze.append(f"{number:x}")
         maze.append("\n")
     maze.append("\n")
-    maze.append(f"{entry[0]},{entry[1]}\n")
-    maze.append(f"{exit_[0]},{exit_[1]}\n")
+    maze.append(f"{entry[0]},{entry[1]}    # entry (x,y)\n")
+    maze.append(f"{exit_[0]},{exit_[1]}    # exit (x,y)\n")
     maze.append(f"{directions}\n")
     return "".join(maze)
 
